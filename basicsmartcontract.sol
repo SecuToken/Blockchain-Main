@@ -55,5 +55,4 @@ contract SimpleStorage {
     // 1. Compile with solc (Solidity compiler)
     // 2. Deploy to Ethereum network using tools like Remix or Hardhat
     // 3. Interact via Ethereum wallet or web3 library
-    */
 }
