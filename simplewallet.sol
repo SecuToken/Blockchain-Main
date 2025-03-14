@@ -1,6 +1,4 @@
 // SPDX-License-Identifier: MIT
-// This line specifies the license under which this code is released - MIT is a permissive open source license
-
 pragma solidity ^0.8.11;
 // This line specifies the Solidity compiler version to use - must be at least 0.8.11 but can be higher
 
