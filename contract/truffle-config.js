@@ -70,7 +70,7 @@ module.exports = {
       network_id: "2025", // Your private network ID
       gas: 5000000,
       gasPrice: 0,
-      from: "0x1f813224C89630dBF0059e7E2Df7879661470cA6" // USER account address
+      from: "0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52" // Your account address (Set to Secutoken ADMIN right now)
      },
     //
     // An additional network, but with some advanced options…
