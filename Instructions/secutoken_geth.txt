@@ -52,3 +52,9 @@ eth.getTransaction('ID_IN_SERVER&CLIENT_CONSOLE')
 
 (Send eth from account array [0] to [1], can be seen as [x] -> [y] [See eth.accounts for order] )
 eth.sendTransaction({from:eth.accounts[0], to:eth.accounts[1], value: web3.toWei(1, "ether")})
+
+(Check balance of Admin wallet)
+web3.fromWei(eth.getBalance("0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52"), "ether")
+
+(Check balance of user wallet)
+web3.fromWei(eth.getBalance("0x1f813224C89630dBF0059e7E2Df7879661470cA6"), "ether")
