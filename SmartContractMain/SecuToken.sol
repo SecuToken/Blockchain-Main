@@ -1,40 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-/**
- * @title SecuToken
- * @dev A simple wallet contract that allows the owner to withdraw ether
- */
-contract SecuToken {
-  // Address of the wallet owner
-  address payable public owner;
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 
-  /**
-   * @dev Sets the creator of the contract as the owner
-   */
-  constructor() {
-      owner = payable(msg.sender);
-  }
+contract Secutoken is ERC20, AccessControl {
+    bytes32 public constant TREASURER_ROLE = keccak256("TREASURER_ROLE");
 
-  /**
-   * @dev Allows the contract to receive ether
-   */
-  receive() external payable {}
+    constructor() ERC20("Secutoken", "SKTN") {
+        _mint(msg.sender, 1_000_000 * 10 ** decimals());
 
-  /**
-   * @dev Allows the owner to withdraw a specific amount of ether
-   * @param _amount The amount of ether to withdraw (in wei)
-   */
-  function withdraw(uint _amount) external {
-      require(msg.sender == owner, "Only owner can call this method");
-      payable(msg.sender).transfer(_amount);
-  }
+        // Give deployer both admin and treasurer roles
+        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _grantRole(TREASURER_ROLE, msg.sender);
+    }
 
-  /**
-   * @dev Returns the current balance of the wallet
-   * @return The balance of the wallet in wei
-   */
-  function getBalance() external view returns (uint) {
-      return address(this).balance;
-  }
+    // Function for TREASURER to send tokens from the contract
+    function sendSKTN(address to, uint256 amount) external onlyRole(TREASURER_ROLE) {
+        require(balanceOf(address(this)) >= amount, "Not enough SKTN in contract");
+        _transfer(address(this), to, amount);
+    }
+
+    // Deposit tokens to the contract
+    function depositToContract(uint256 amount) external {
+        _transfer(msg.sender, address(this), amount);
+    }
 }
