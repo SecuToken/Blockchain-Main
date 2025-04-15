@@ -5,30 +5,72 @@ accounts[1] = 0x1... (Usertest address)
 ======Console Commands=====
 truffle console --network development
 
-// Get the deployed contract instance
-let instance = await SecuToken.deployed()
+// Get the deployed SecuToken smart contract instance
+let token = await SecuToken.deployed()
 
-// Get the contract owner
-let owner = await instance.owner()
+// Get total supply
+let supply = await token.totalSupply()
 
-// Get the contract balance
-let balance = await instance.getBalance()
+// Check total supply (in wei units)
+supply.toString()
 
-// Check initial contract balance
-balance.toString()
 
-// Send Ether to the contract
-await web3.eth.sendTransaction({from: accounts[0], to: instance.address, value: web3.utils.toWei("1", "ether")})
+// Get all accounts in blockchain 
+let accounts = await web3.eth.getAccounts()
 
-// Withdraw Ether
-await instance.withdraw(web3.utils.toWei("0.5", "ether"))
+// Get Admin Account address balance
+let admin_balance = await token.balanceOf("0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52")
 
-// Confirm Updated balance
-balance = await instance.getBalance()
-balance.toString()
+// Get User Account address balance
+let user_balance = await token.balanceOf("0x1f813224C89630dBF0059e7E2Df7879661470cA6")
+
+
+// Check balance of Admin (in wei units)
+admin_balance.toString()
+
+// Check balance of Admin (in ether value)
+console.log(web3.utils.fromWei(admin_balance, "ether"))
+
+// Check balance of User (in wei units)
+user_balance.toString()
+
+// Check balance of User (in ether value)
+console.log(web3.utils.fromWei(user_balance, "ether"))
+
+
+
+// Deposit 1000 (Ether value) tokens from ADMIN Account wallet into the SecuToken smart contract wallet 
+await token.depositToContract(web3.utils.toWei("1000"))
+
+// Send SKTN from smart contract wallet to Recipient - "Amount" is represented in Ether Value
+await token.sendSKTN("RecipientAddress", web3.utils.toWei("Amount"))
+
+
+// Re-declare Balance variable to see updated SKTN Balance of Accounts
+admin_balance = await token.balanceOf("0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52")
+user_balance = await token.balanceOf("0x1f813224C89630dBF0059e7E2Df7879661470cA6")
+
+
+// Get the deployed SecuToken smart contract Balance
+let contractBalance = await token.balanceOf(token.address)
+
+// Check SecuToken smart contract balance (in ether value)
+console.log(web3.utils.fromWei(contractBalance, "ether"))
+
+// Check SecuToken smart contract balance (in wei units)
+web3.utils.toWei(contractBalance.toString())
+
+
+// TREASURER ROLE - By default, admin already has this role absorbed
+
+// Grant TREASURER_ROLE to another account
+const role = await token.TREASURER_ROLE()
+await token.grantRole(role, "Address")
 
 
 ======Debug Commands======
-console.log(owner)
-console.log(instance.address)
-console.log(web3.utils.fromWei(balance, "ether"))
+// Check deployed address of the smart contract
+console.log(token.address)
+
+// Check accounts in blockchain
+accounts.toString()

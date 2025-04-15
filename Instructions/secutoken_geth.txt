@@ -26,8 +26,8 @@ geth --datadir data --networkid 2025 --mine --miner.gasprice 0 --miner.etherbase
 ---{2 Terminals Required}---
 
 1.
-(Start GETH Javascript Console) (Must be in folder /SecuToken)
-geth attach data/geth.ipc 
+(Start GETH Javascript Console)
+geth attach http://127.0.0.1:8545
 
 2.
 (Unlock Account JSON-RPC Method)
@@ -44,7 +44,7 @@ geth --datadir data account list
 (Grabs Block Number)
 eth.blockNumber
 
-(Grabs account addresses on netowrk: Ordered by -> [0], [1], [2], [...])
+(Grabs account addresses on blockchain network: Ordered by -> [0], [1], [2], [...])
 eth.accounts
 
 (Grabs Transaction Info)
