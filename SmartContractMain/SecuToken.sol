@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
-contract Secutoken is ERC20, AccessControl {
+contract SecuToken is ERC20, AccessControl {
     bytes32 public constant TREASURER_ROLE = keccak256("TREASURER_ROLE");
 
-    constructor() ERC20("Secutoken", "SKTN") {
+    constructor() ERC20("SecuToken", "SKTN") {
         _mint(msg.sender, 1_000_000 * 10 ** decimals());
 
         // Give deployer both admin and treasurer roles
