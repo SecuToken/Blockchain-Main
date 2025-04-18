@@ -3,6 +3,7 @@ accounts[0] = 0x3... (SecuToken admin address)
 accounts[1] = 0x1... (Usertest address)
 
 ======Console Commands=====
+(Must be in folder /contract)
 truffle console --network development
 
 // Get the deployed SecuToken smart contract instance
