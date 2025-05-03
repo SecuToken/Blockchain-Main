@@ -1,0 +1,60 @@
+=======================================USERS===================================================
+Admin Password: secutokenadmin 
+Address: 0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52
+
+User Demo Password: usertest 
+Address: 0x1f813224C89630dBF0059e7E2Df7879661470cA6
+
+=======================================DEBUG===================================================
+(Must be in folder /SecuToken)
+
+rm -rf data/geth
+(force removing the dir /geth, also recursive so all dirs in /geth as well)
+
+=======================================LAUNCH SERVER GETH======================================
+Commands to launch GETH IN ORDER: (Must be in folder /SecuToken)
+
+1. (Skip to 2. if you already did this step)
+(Initialise genesis.json)
+geth --datadir data init genesis.json
+
+2.
+(Start Blockchain)
+geth --datadir data --networkid 2025 --mine --miner.etherbase "0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52" --unlock "0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52" --password data/admin_signer_password.txt --http --http.addr 127.0.0.1 --http.port 8545 --http.api eth,net,web3,personal --allow-insecure-unlock --nodiscover
+
+=======================================LAUNCH CLIENT GETH======================================
+---{2 Terminals Required}---
+
+1.
+(Start GETH Javascript Console)
+geth attach http://127.0.0.1:8545
+
+2.
+(Unlock Account JSON-RPC Method)
+curl -X POST --data '{"jsonrpc":"2.0","method":"personal_unlockAccount","params":["0xADDRESS", "PASSWORD", 600],"id":1}' -H "Content-Type: application/json" http://localhost:8545
+
+=======================================SERVER-SIDE-CMDS========================================
+(Adds New Person to blockchain)
+geth account new --datadir data
+
+(Grabs Account Infos)
+geth --datadir data account list
+
+=======================================CLIENT-SIDE-CMDS========================================
+(Grabs Block Number)
+eth.blockNumber
+
+(Grabs account addresses on blockchain network: Ordered by -> [0], [1], [2], [...])
+eth.accounts
+
+(Grabs Transaction Info)
+eth.getTransaction('ID_IN_SERVER&CLIENT_CONSOLE')
+
+(Send eth from account array [0] to [1], can be seen as [x] -> [y] [See eth.accounts for order] )
+eth.sendTransaction({from:eth.accounts[0], to:eth.accounts[1], value: web3.toWei(1, "ether")})
+
+(Check balance of Admin wallet)
+web3.fromWei(eth.getBalance("0x3B663aAb4fdd872C5B79882eef7159B9C11e0b52"), "ether")
+
+(Check balance of user wallet)
+web3.fromWei(eth.getBalance("0x1f813224C89630dBF0059e7E2Df7879661470cA6"), "ether")
